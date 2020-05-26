@@ -1,2 +1,15 @@
+spring:
+   profiles:
+      active: '@spring.profiles.active@'
 server:
-  port : 18080
+   port: 18080
+env:
+   name: '@env.name@'
+
+secret:
+  password: '@secret.password@'   
+   
+jasypt:
+    encryptor:
+      privateKeyFormat: PEM
+      privateKeyLocation: file:config/private.key   

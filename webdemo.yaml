@@ -17,6 +17,7 @@ spec:
       containers:
       - name: webdemo 
         image: registry.lab.local:5000/webdemo:latest
+        imagePullPolicy: Always
         env:
           - name: abc
             value: "testing"        

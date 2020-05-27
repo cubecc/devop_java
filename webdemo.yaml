@@ -17,6 +17,9 @@ spec:
       containers:
       - name: webdemo 
         image: registry.lab.local:5000/webdemo:latest
+        env:
+          - name: abc
+            value: "testing"        
         ports:
         - containerPort: 18080
           name: webdemo

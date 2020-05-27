@@ -12,4 +12,4 @@ secret:
 jasypt:
     encryptor:
       privateKeyFormat: PEM
-      privateKeyLocation: file:config/private.key   
+      privateKeyLocation: file:/var/app_certs/private.key   

@@ -13,13 +13,13 @@ pipeline {
     }
 
     stages {
-/*		
-		stage ('cleanup'){
+
+		stage ('clean before working'){
 			steps{
 				deleteDir()
 			}
 		}
-*/
+
 		
         stage ('Initialize') {
             steps { 
@@ -27,11 +27,23 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                     echo ""
-                ''' 
-                
-                
+                '''                                 
             }  
         }
                 
+                
+        stage('Build') {
+        	 agent {
+		        docker {
+		          reuseNode true
+		          image 'maven:3.6.3-jdk-8'
+		        }
+		      }
+		      steps {		        
+		        withMaven(options: [findbugsPublisher(), junitPublisher(ignoreAttachments: false)]) {
+		          sh 'mvn clean findbugs:findbugs package'
+		        }
+		      }
+        }       
     }
 }

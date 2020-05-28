@@ -2,7 +2,7 @@ pipeline {
 	agent any
 
     environment {
-        registry = "registry.lab.local:5000/webdemo"
+        registry = "registry.lab.local:5000/webdemo-dev"
         registryCredential = 'docker-registry-100.64.21.108'
         dockerImage = ''
         env= "dev"

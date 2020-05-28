@@ -32,11 +32,11 @@ pipeline {
 				//sh 'mvn -Dmaven.test.failure.ignore=true package' 
 				sh 'mvn package -Pdev' 
             }
-                            post {
-            success {
-                junit 'target/surefire-reports/**/*.xml' 
-            }
-        }
+            post {
+	            success {
+	                junit 'target/surefire-reports/**/*.xml' 
+	            }
+        	}
         }
 
 

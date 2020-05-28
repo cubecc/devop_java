@@ -5,7 +5,7 @@ pipeline {
         registry = "registry.lab.local:5000/webdemo"
         registryCredential = 'docker-registry-100.64.21.108'
         dockerImage = ''
-        abc= "test"
+        env= "uat"
     }
 
     tools { 
@@ -31,7 +31,7 @@ pipeline {
             steps {
                 echo 'Start Build...'
 				//sh 'mvn -Dmaven.test.failure.ignore=true package' 
-				sh 'mvn package -Pdev' 
+				sh 'mvn package -P${env}' 
             }
             post {
 	            success {

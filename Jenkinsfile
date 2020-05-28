@@ -11,13 +11,15 @@ pipeline {
     tools { 
         maven 'mvn3.6.3' 
     }
-    
+        
     stages {
-		    stage("deploy to dev") {
+    	stage("deploy to dev") {
 		  when {
 		    branch 'dev'
 		    steps {
-		      echo 'deploy to dev'
+		    	sh '''
+		      		echo "deploy to dev"
+		      	'''
 		    }
 		  }
 		}
@@ -26,13 +28,13 @@ pipeline {
 		  when {
 		    branch 'master'
 		    steps {
-		      echo 'deploy to uat'
+		    	sh '''
+		      		echo "deploy to uat"
+		      	'''
 		    }
 		  }
 		}
-    }
-    
-    stages {
+		
         stage ('Initialize') {
             steps { 
                 sh '''

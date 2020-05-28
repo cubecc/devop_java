@@ -1,5 +1,9 @@
 pipeline {
-	agent any
+	  agent {
+	    node {
+	      label 'docker'
+	    }
+	  }
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"

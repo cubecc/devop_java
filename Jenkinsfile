@@ -13,27 +13,6 @@ pipeline {
     }
 
     stages {
-    	stage("deploy to dev") {
-		  when {
-		    branch 'dev'
-		    steps {
-		    	sh '''
-		      		echo "deploy to dev"
-		      	'''
-		    }
-		  }
-		}
-		
-		stage("deploy to uat") {
-		  when {
-		    branch 'master'
-		    steps {
-		    	sh ''' 
-		      		echo "deploy to uat"
-		      	'''
-		    }
-		  }
-		}
 		
         stage ('Initialize') {
             steps { 

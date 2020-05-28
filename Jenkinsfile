@@ -22,7 +22,7 @@ pipeline {
                 ''' 
             }  
         }
-        
+        /*
         stage("Cloning Git") {
             steps{
                 git credentialsId: 'cube-github', url: 'git@github.com:cubecc/devop_java.git'
@@ -74,6 +74,7 @@ pipeline {
 		  steps{
 		    sh "docker rmi $registry:$BUILD_NUMBER"
 		  }
-		}            
+		}         
+		*/   
     }
 }

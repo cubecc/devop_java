@@ -11,6 +11,27 @@ pipeline {
     tools { 
         maven 'mvn3.6.3' 
     }
+    
+    stages {
+		    stage("deploy to dev") {
+		  when {
+		    branch 'dev'
+		    steps {
+		      echo 'deploy to dev'
+		    }
+		  }
+		}
+		
+		stage("deploy to uat") {
+		  when {
+		    branch 'master'
+		    steps {
+		      echo 'deploy to uat'
+		    }
+		  }
+		}
+    }
+    
     stages {
         stage ('Initialize') {
             steps { 

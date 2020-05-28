@@ -14,6 +14,12 @@ pipeline {
 
     stages {
 		
+		stage ('cleanup'){
+			steps{
+				deleteDir()
+			}
+		}
+		
         stage ('Initialize') {
             steps { 
                 sh '''

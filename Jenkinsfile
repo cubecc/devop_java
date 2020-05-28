@@ -11,9 +11,9 @@ pipeline {
     tools { 
         maven 'mvn3.6.3' 
     }
-    
+        
     stages {
-		    stage("deploy to dev") {
+    	stage("deploy to dev") {
 		  when {
 		    branch 'dev'
 		    steps {
@@ -30,9 +30,7 @@ pipeline {
 		    }
 		  }
 		}
-    }
-    
-    stages {
+		
         stage ('Initialize') {
             steps { 
                 sh '''

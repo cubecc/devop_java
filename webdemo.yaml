@@ -3,27 +3,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webdemo
+  name: webdemo-dev
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webdemo 
+      app: webdemo-dev 
   template:
     metadata:
       labels:
-        app: webdemo
+        app: webdemo-dev
     spec:
       containers:
       - name: webdemo 
-        image: registry.lab.local:5000/webdemo:latest
+        image: registry.lab.local:5000/webdemo-dev:latest
         imagePullPolicy: Always
         env:
           - name: env
             value: "testing"        
         ports:
         - containerPort: 18080
-          name: webdemo
+          name: webdemo-dev
           protocol: TCP
       imagePullSecrets: 
       - name: regcred
@@ -32,13 +32,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webdemo 
+  name: webdemo-dev 
 spec:
   selector:
-    app: webdemo 
+    app: webdemo-dev 
   type: NodePort
   ports:
-  - name: webdemo
+  - name: webdemo-dev
     port: 18080
-    nodePort: 31234
+    nodePort: 31235
 

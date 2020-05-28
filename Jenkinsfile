@@ -5,7 +5,7 @@ pipeline {
         registry = "registry.lab.local:5000/webdemo"
         registryCredential = 'docker-registry-100.64.21.108'
         dockerImage = ''
-        env= "uat"
+        env= "dev"
     }
 
     tools { 

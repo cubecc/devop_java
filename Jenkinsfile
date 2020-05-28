@@ -28,7 +28,7 @@ pipeline {
 		  when {
 		    branch 'master'
 		    steps {
-		    	sh '''
+		    	sh ''' 
 		      		echo "deploy to uat"
 		      	'''
 		    }

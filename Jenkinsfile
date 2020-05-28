@@ -1,9 +1,9 @@
 pipeline {
-	  agent {
-	    node {
-	      label 'kubernetes'
-	    }
-	  }
+    agent {
+        docker {
+            image 'maven:3.6.3-jdk-8'
+        }
+    }
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"
@@ -31,12 +31,11 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                     echo ""
-                '''        
-                sh 'k get pod'                         
+                '''                                
             }  
         }
                 
-                /*
+                
         stage('Build') {
         	 agent {
 		        docker {
@@ -50,6 +49,6 @@ pipeline {
 		        }
 		      }
         }       
-        */
+        
     }
 }

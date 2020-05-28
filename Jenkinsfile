@@ -1,7 +1,7 @@
 pipeline {
 	  agent {
 	    node {
-	      label 'docker'
+	      label 'kubernetes'
 	    }
 	  }
 
@@ -31,11 +31,12 @@ pipeline {
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
                     echo ""
-                '''                                 
+                '''        
+                sh 'k get pod'                         
             }  
         }
                 
-                
+                /*
         stage('Build') {
         	 agent {
 		        docker {
@@ -49,5 +50,6 @@ pipeline {
 		        }
 		      }
         }       
+        */
     }
 }

@@ -30,7 +30,7 @@ pipeline {
             steps {
                 echo 'Start Build...'
 				//sh 'mvn -Dmaven.test.failure.ignore=true package' 
-				sh 'mvn package -Puat' 
+				sh 'mvn package -Pdev' 
             }
                             post {
             success {

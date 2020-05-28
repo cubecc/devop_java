@@ -19,7 +19,7 @@ spec:
         image: registry.lab.local:5000/webdemo:latest
         imagePullPolicy: Always
         env:
-          - name: abc
+          - name: env
             value: "testing"        
         ports:
         - containerPort: 18080

@@ -76,30 +76,28 @@ pipeline {
 		//		deleteDir()
 		//	}
 		//}      
-
-
-		  post {
-	        always {
-	            echo 'post status : clearup workspace'
-	            deleteDir() /* clean up our workspace */
-	        }
-	        success {
-	            echo 'post status : success'
-	        }
-	        unstable {
-	            echo 'post status : unstable'
-	        }
-		    failure {		      
-		    	  echo 'post status : failure'
-		      	  //mail to: 'alex.cc.chan@jos.com',
-		          //subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
-		          //body: "Something is wrong with ${env.BUILD_URL}"
-		    }
-	        changed {
-	            echo 'post status : changed'
-	        }		  
-
-		  }
   		
     }
+	  post {
+        always {
+            echo 'post status : clearup workspace'
+            deleteDir() /* clean up our workspace */
+        }
+        success {
+            echo 'post status : success'
+        }
+        unstable {
+            echo 'post status : unstable'
+        }
+	    failure {		      
+	    	  echo 'post status : failure'
+	      	  //mail to: 'alex.cc.chan@jos.com',
+	          //subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+	          //body: "Something is wrong with ${env.BUILD_URL}"
+	    }
+        changed {
+            echo 'post status : changed'
+        }		  
+
+	  }    
 }

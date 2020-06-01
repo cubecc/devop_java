@@ -17,13 +17,6 @@ pipeline {
     }
 
     stages {
-
-		//stage ('clean before working'){
-		//	steps{
-		//		deleteDir()
-		//	}
-		//}
-
 		
         stage ('Initialize') {
             steps { 
@@ -44,7 +37,7 @@ pipeline {
         
         stage('QA') {
           steps {
-          	sh 'call sonar for qa (TODO)'
+          	sh 'call sonar for qa - TODO'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
           }        
         }
@@ -61,6 +54,12 @@ pipeline {
         }
 
 		//stage('Build and Publish Image') {
-		//}        
+		//}  
+		
+		//stage ('clean after working'){
+		//	steps{
+		//		deleteDir()
+		//	}
+		//}      
     }
 }

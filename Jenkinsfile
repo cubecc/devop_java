@@ -18,11 +18,11 @@ pipeline {
 
     stages {
 
-		stage ('clean before working'){
-			steps{
-				deleteDir()
-			}
-		}
+		//stage ('clean before working'){
+		//	steps{
+		//		deleteDir()
+		//	}
+		//}
 
 		
         stage ('Initialize') {

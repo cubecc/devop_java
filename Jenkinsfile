@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"
+        registryUrl = 'https://100.64.21.108:5000'
         registryCredential = 'docker-registry-100.64.21.108'
         //dockerImage = ''
         env= "dev"
@@ -51,7 +52,7 @@ pipeline {
         
           steps {          	
 	          	script {
-		           	docker.withRegistry( 'https://registry.lab.local:5000', registryCredential ) {
+		           	docker.withRegistry( ${registryUrl}, ${registryCredential} ) {
 				        sh '''				          		                  
 		                    	docker build -t ${IMAGE}:${VERSION} .
 						        docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest

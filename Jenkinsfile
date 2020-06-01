@@ -3,7 +3,8 @@ pipeline {
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"
-        registryUrl = 'https://100.64.21.108:5000'
+        //registryUrl = 'https://100.64.21.108:5000'
+        registryUrl = 'https://registry.lab.local:5000'
         registryCredential = 'docker-registry-100.64.21.108'
         //dockerImage = ''
         env= "dev"

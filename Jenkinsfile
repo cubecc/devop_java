@@ -46,9 +46,13 @@ pipeline {
         
           steps {          	
 		        sh '''
-		          docker build -t ${IMAGE}:${VERSION} .
-		          docker tag ${IMAGE} ${IMAGE}:${VERSION}
-		          docker push ${IMAGE}:${VERSION}
+		          
+                    docker.withRegistry( 'https://registry.lab.local:5000', registryCredential ) {
+                    	docker build -t ${IMAGE}:${VERSION} .
+				          docker tag ${IMAGE} ${IMAGE}:${VERSION}
+				          docker push ${IMAGE}:${VERSION}
+                    }		          
+
 		        '''
           }         
         }

@@ -80,7 +80,7 @@ pipeline {
 
 		  post {
 	        always {
-	            echo 'echo 'post status : clearup workspace'
+	            echo 'post status : clearup workspace'
 	            deleteDir() /* clean up our workspace */
 	        }
 	        success {

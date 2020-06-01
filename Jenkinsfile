@@ -1,10 +1,5 @@
 pipeline {
-        	 agent {
-		        docker {
-		          reuseNode true
-		          image 'maven:3.6.3-jdk-8'
-		        }
-		      }
+    agent any
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"
@@ -40,7 +35,6 @@ pipeline {
         stage('Build') {
         	 agent {
 		        docker {
-		          reuseNode true
 		          image 'maven:3.6.3-jdk-8'
 		        }
 		      }

@@ -6,6 +6,10 @@ pipeline {
         registryCredential = 'docker-registry-100.64.21.108'
         dockerImage = ''
         env= "dev"
+        //IMAGE = readMavenPom().getArtifactId()
+    	//VERSION = readMavenPom().getVersion()
+    	IMAGE = "registry.lab.local:5000/webdemo-dev"
+    	VERSION = ${BUILD_NUMBER}
     }
 
     tools { 
@@ -32,18 +36,30 @@ pipeline {
         }
                 
                 
-        stage('Build') {
-        	 agent {
-		        docker {
-		          image 'maven:3.6.3-jdk-8'
-		        }
-		      }
-		      steps {		        
-		        withMaven(options: [findbugsPublisher(), junitPublisher(ignoreAttachments: false)]) {
-		          sh 'mvn clean findbugs:findbugs package'
-		        }
-		      }
+        stage('Build & Test') {
+        	steps {
+        		sh 'mvn clean findbugs:findbugs package'
+        	}
         }       
         
+        stage('QA') {
+          steps {
+            //sh ‘mvn sonar:sonar -Dsonar.login=$SONAR_PSW‘
+          }        
+        }
+        
+        stage('Build & Publish Images') {
+        
+          steps {          	
+		        sh '''
+		          docker build -t ${IMAGE}:${VERSION} .
+		          docker tag ${IMAGE} ${IMAGE}:${VERSION}
+		          docker push ${IMAGE}:${VERSION}
+		        '''
+          }         
+        }
+
+		//stage('Build and Publish Image') {
+		//}        
     }
 }

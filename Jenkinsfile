@@ -38,7 +38,7 @@ pipeline {
                 
         stage('Build & Test') {
         	steps {
-        		sh 'mvn clean findbugs:findbugs package'
+        		sh 'mvn clean package'
         	}
         }       
         

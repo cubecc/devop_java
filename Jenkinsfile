@@ -9,7 +9,7 @@ pipeline {
         //IMAGE = readMavenPom().getArtifactId()
     	//VERSION = readMavenPom().getVersion()
     	IMAGE = "registry.lab.local:5000/webdemo-dev"
-    	VERSION = ${BUILD_NUMBER}
+    	VERSION = "${BUILD_NUMBER}"
     }
 
     tools { 

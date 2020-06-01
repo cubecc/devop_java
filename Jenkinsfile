@@ -33,6 +33,11 @@ pipeline {
         	steps {
         		sh 'mvn clean package -P${env}'
         	}
+            post {
+	            success {
+	                junit 'target/surefire-reports/**/*.xml' 
+	            }
+        	}        	
         }       
         
         stage('QA') {
@@ -60,8 +65,7 @@ pipeline {
         stage('Deploy to K8') {
             steps{
                 sh("kubectl replace -f webdemo.yaml --force")
-            }
-            
+            }            
         } 
         
 		//stage('Build and Publish Image') {
@@ -72,5 +76,30 @@ pipeline {
 		//		deleteDir()
 		//	}
 		//}      
+
+
+		  post {
+	        always {
+	            echo 'echo 'post status : clearup workspace'
+	            deleteDir() /* clean up our workspace */
+	        }
+	        success {
+	            echo 'post status : success'
+	        }
+	        unstable {
+	            echo 'post status : unstable'
+	        }
+		    failure {		      
+		    	  echo 'post status : failure'
+		      	  //mail to: 'alex.cc.chan@jos.com',
+		          //subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+		          //body: "Something is wrong with ${env.BUILD_URL}"
+		    }
+	        changed {
+	            echo 'post status : changed'
+	        }		  
+
+		  }
+  		
     }
 }

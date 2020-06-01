@@ -52,7 +52,7 @@ pipeline {
         
           steps {          	
 	          	script {
-		           	docker.withRegistry( ${registryUrl}, ${registryCredential} ) {
+		           	docker.withRegistry( registryUrl, registryCredential ) {
 				        sh '''				          		                  
 		                    	docker build -t ${IMAGE}:${VERSION} .
 						        docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest

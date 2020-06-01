@@ -5,7 +5,8 @@ pipeline {
         registry = "registry.lab.local:5000/webdemo-dev"
         //registryUrl = 'https://100.64.21.108:5000'
         registryUrl = 'https://registry.lab.local:5000'
-        registryCredential = 'docker-registry-100.64.21.108'
+        //registryCredential = 'docker-registry-100.64.21.108'
+        registryCredential = 'docker-registry-login'
         //dockerImage = ''
         env= "dev"
         //IMAGE = readMavenPom().getArtifactId()

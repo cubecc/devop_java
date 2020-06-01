@@ -44,7 +44,8 @@ pipeline {
         
         stage('QA') {
           steps {
-            //sh ‘mvn sonar:sonar -Dsonar.login=$SONAR_PSW‘
+          	sh 'call sonar for qa (TODO)'
+            //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
           }        
         }
         

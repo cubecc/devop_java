@@ -4,7 +4,7 @@ pipeline {
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"
         registryCredential = 'docker-registry-100.64.21.108'
-        dockerImage = ''
+        //dockerImage = ''
         env= "dev"
         //IMAGE = readMavenPom().getArtifactId()
     	//VERSION = readMavenPom().getVersion()
@@ -47,20 +47,23 @@ pipeline {
           steps {          	
 	          	script {
 		           	docker.withRegistry( 'https://registry.lab.local:5000', registryCredential ) {
-				        sh '''
-				          
-		                   
+				        sh '''				          		                  
 		                    	docker build -t ${IMAGE}:${VERSION} .
-						          docker tag ${IMAGE} ${IMAGE}:${VERSION}
-						          docker push ${IMAGE}:${VERSION}
-		                    		          
-		
+						        docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest
+						        docker push ${IMAGE}:latest		                    		         		
 				        '''
 			        }
 			     }
           }         
         }
 
+        stage('Deploy to K8') {
+            steps{
+                sh("kubectl replace -f webdemo.yaml --force")
+            }
+            
+        } 
+        
 		//stage('Build and Publish Image') {
 		//}  
 		

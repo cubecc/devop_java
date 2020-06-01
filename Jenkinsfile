@@ -1,9 +1,9 @@
 pipeline {
-    agent {
-        docker {
-            image 'maven:3.6.3-jdk-8'
-        }
+  agent {
+    node {
+      label ‘docker‘
     }
+  }
 
     environment {
         registry = "registry.lab.local:5000/webdemo-dev"

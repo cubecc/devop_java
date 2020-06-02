@@ -23,15 +23,15 @@ pipeline {
     	
         stage('User Input') {
             steps {
-                timeout(60) {
+                timeout(1) {
                     script {                        
-                        approvalMap = input id: 'test', message: 'Hello', ok: 'Proceed?', parameters: [choice(choices: 'apple\npear\norange', description: 'Select a fruit for this build', name: 'FRUIT'), string(defaultValue: '', description: '', name: 'myparam')], submitter: 'user1,user2,group1', submitterParameter: 'APPROVER'
+                        approvalMap = input id: 'test', message: 'Hello', ok: 'Proceed?', parameters: [choice(choices: 'dev\nuat\nprod', description: 'Select env to build', name: 'Environment'), string(defaultValue: '', description: '', name: 'Remarks')], submitter: 'user1,user2,group1', submitterParameter: 'APPROVER'
                     }
                 }
                                                 
                 echo "This build was approved by: ${approvalMap['APPROVER']}"
-                echo "This build is brought to you today by the fruit: ${approvalMap['FRUIT']}"
-                echo "This is myparam: ${approvalMap['myparam']}"
+                echo "build env: ${approvalMap['Environment']}"
+                echo "Remarks : ${approvalMap['Remarks']}"
             }
         }
 		

@@ -1,6 +1,16 @@
 spring:
-   profiles:
-      active: '@spring.profiles.active@'
+  profiles:
+    active: '@spring.profiles.active@'
+  datasource:
+    url: jdbc:mysql://100.64.21.141:31907/devop
+    username: root
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+               
 server:
    port: 18080
 env:
@@ -66,3 +76,6 @@ jasypt:
           MSvTcHdAsQTZCM6TqTAOhuG24AwC
           -----END PRIVATE KEY-----
       #privateKeyLocation: file:/var/app_certs/private.key   
+      
+
+ 

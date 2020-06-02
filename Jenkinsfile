@@ -20,6 +20,20 @@ pipeline {
     }
 
     stages {
+    	
+        stage('User Input') {
+            steps {
+                timeout(60) {
+                    script {                        
+                        approvalMap = input id: 'test', message: 'Hello', ok: 'Proceed?', parameters: [choice(choices: 'apple\npear\norange', description: 'Select a fruit for this build', name: 'FRUIT'), string(defaultValue: '', description: '', name: 'myparam')], submitter: 'user1,user2,group1', submitterParameter: 'APPROVER'
+                    }
+                }
+                                                
+                echo "This build was approved by: ${approvalMap['APPROVER']}"
+                echo "This build is brought to you today by the fruit: ${approvalMap['FRUIT']}"
+                echo "This is myparam: ${approvalMap['myparam']}"
+            }
+        }
 		
         stage ('Initialize') {
             steps { 
@@ -30,8 +44,7 @@ pipeline {
                 '''                                
             }  
         }
-                
-                
+                                
         stage('Build & Test') {
         	steps {
         		sh 'mvn clean package -P${env}'
@@ -71,6 +84,11 @@ pipeline {
             }            
         } 
         
+        stage('Post test') {
+            steps{
+                echo 'ping'
+            }            
+        }         
 		//stage('Build and Publish Image') {
 		//}  
 		

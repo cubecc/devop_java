@@ -1,0 +1,29 @@
+<style>
+td{
+ border:1px solid
+}
+
+</style>
+
+<table>
+    <thead>
+        <tr>
+        	<th> id </th>
+            <th> login </th>
+            <th> password </th>
+            <th> username </th>
+        </tr>
+    </thead>
+    <tbody>
+    	<tr th:if="${users.empty}">
+            <td colspan="2"> No Data</td>
+        </tr>
+        <tr th:each="user : ${users}">
+        	<td><span th:text="${user.id}"></span></td>
+            <td><span th:text="${user.login}"></span></td>
+            <td><span th:text="${user.password}"></span></td>
+            <td><span th:text="${user.username}"></span></td>
+        </tr>        
+    </tbody>
+</table>
+<div><a href="/login">Back</a></div>

@@ -27,9 +27,9 @@ spec:
           protocol: TCP
         resources:
           limits:
-            cpu: 200m
+            cpu: 500m
           requests:
-            cpu: 100m          
+            cpu: 200m          
       imagePullSecrets: 
       - name: regcred
       
@@ -60,4 +60,4 @@ spec:
     name: webdemo-dev
   minReplicas: 1
   maxReplicas: 10
-  targetCPUUtilizationPercentage: 20
+  targetCPUUtilizationPercentage: 50

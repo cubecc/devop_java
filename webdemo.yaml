@@ -42,3 +42,17 @@ spec:
     port: 18080
     nodePort: 31235
 
+
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: webdemo-dev
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: webdemo-dev
+  minReplicas: 1
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 10

@@ -27,9 +27,9 @@ spec:
           protocol: TCP
         resources:
           limits:
-            cpu: 500m
+            cpu: 1.5
           requests:
-            cpu: 200m          
+            cpu: 500m          
       imagePullSecrets: 
       - name: regcred
       

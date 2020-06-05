@@ -60,7 +60,7 @@ pipeline {
           steps {
           	echo  'call sonar'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
-			    withSonarQubeEnv(){ 
+			    withSonarQubeEnv('SonarQube'){ 
 			      sh 'mvn sonar:sonar'
 			    }           
           }        

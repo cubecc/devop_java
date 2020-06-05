@@ -56,10 +56,13 @@ pipeline {
         	}        	
         }       
         
-        stage('QA') {
+        stage('SonarQube Analysis') {
           steps {
-          	echo  'call sonar for qa (TODO)'
+          	echo  'call sonar'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
+			    withSonarQubeEnv(){ 
+			      sh 'mvn sonar:sonar'
+			    }           
           }        
         }
         

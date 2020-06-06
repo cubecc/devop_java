@@ -84,7 +84,7 @@ pipeline {
 
         stage('Deploy to K8') {
             steps{
-                sh("kubectl apply -f webdemo.yaml --force")
+                sh("kubectl replace -f webdemo.yaml --force")
             }            
         } 
         

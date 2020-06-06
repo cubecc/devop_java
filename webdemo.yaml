@@ -29,7 +29,15 @@ spec:
           limits:
             cpu: 1.5
           requests:
-            cpu: 500m          
+            cpu: 500m
+        volumeMounts:
+        - name: app-log-volume
+          mountPath: /var/log/webDemo/
+      volumes:
+      - name: app-log-volume
+        hostPath:
+          # directory location on host
+          path: /var/log/k8s-mount/webDemo
       imagePullSecrets: 
       - name: regcred
       

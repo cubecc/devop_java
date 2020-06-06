@@ -9,7 +9,7 @@ import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties
 @EnableEncryptableProperties
 public class WebDemoApplication {
 
-	public static void main(String[] args) {		
+	public static void main(String[] args) {
 		SpringApplication.run(WebDemoApplication.class, args);
 	}
 

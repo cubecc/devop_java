@@ -23,15 +23,16 @@ pipeline {
     	
         stage('User Input') {
             steps {
-                timeout(1) {
-                    script {                        
-                        approvalMap = input id: 'test', message: 'Hello', ok: 'Proceed?', parameters: [choice(choices: 'dev\nuat\nprod', description: 'Select env to build', name: 'Environment'), string(defaultValue: '', description: '', name: 'Remarks')], submitter: 'user1,user2,group1', submitterParameter: 'APPROVER'
-                    }
-                }
-                                                
-                echo "This build was approved by: ${approvalMap['APPROVER']}"
-                echo "build env: ${approvalMap['Environment']}"
-                echo "Remarks : ${approvalMap['Remarks']}"
+            	echo 'wait user input...'            	
+//                timeout(1) {
+//                    script {                        
+//                        approvalMap = input id: 'test', message: 'Hello', ok: 'Proceed?', parameters: [choice(choices: 'dev\nuat\nprod', description: 'Select env to build', name: 'Environment'), string(defaultValue: '', description: '', name: 'Remarks')], submitter: 'user1,user2,group1', submitterParameter: 'APPROVER'
+//                    }
+//                }
+//                                                
+//                echo "This build was approved by: ${approvalMap['APPROVER']}"
+//                echo "build env: ${approvalMap['Environment']}"
+//                echo "Remarks : ${approvalMap['Remarks']}"
             }
         }
 		
@@ -83,7 +84,7 @@ pipeline {
 
         stage('Deploy to K8') {
             steps{
-                sh("kubectl replace -f webdemo.yaml --force")
+                sh("kubectl apply -f webdemo.yaml --force")
             }            
         } 
         

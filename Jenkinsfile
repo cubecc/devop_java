@@ -52,6 +52,7 @@ pipeline {
         	}
             post {
 	            success {
+	            	echo 'generate test report'
 	                //junit 'target/surefire-reports/**/*.xml' 
 	            }
         	}        	

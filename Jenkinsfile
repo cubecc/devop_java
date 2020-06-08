@@ -49,8 +49,9 @@ pipeline {
         stage('Setup Env') {
             steps {
                 script {
-                    startZap(host: "100.64.21.108", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.*'])
+                    startZap(host: "100.64.21.108", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
                 }
+                sh "ps auxwww|grep -i zap"
             }
         }
                                         

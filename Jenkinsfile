@@ -51,7 +51,7 @@ pipeline {
             steps {
                 script {
                     //startZap(host: "100.64.21.108", port: 8088, timeout:10000, zapHome: "/usr/share/owasp-zap", allowedHosts:['100.64.21.136'])
-                    startZap(host: "100.64.21.108", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap", allowedHosts:['100.64.21.136'])
+                    startZap(host: "127.0.0.1", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
                     //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
 
                 }
@@ -75,13 +75,16 @@ pipeline {
           steps {
           	echo  'call sonar'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
+            /*
 			    withSonarQubeEnv('SonarQube'){ 
 			      sh 'mvn sonar:sonar'
-			    }           
+			    }
+			*/           
           }        
         }
         
         stage('OWASP Scan') {
+        	agent { label 'zap' }
         	steps {
         		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
         		 script {

@@ -50,10 +50,12 @@ pipeline {
         	agent { label 'zap' }
             steps {
                 script {
-                    startZap(host: "100.64.21.108", port: 8088, timeout:10000, zapHome: "/usr/share/owasp-zap", allowedHosts:['100.64.21.136'])
+                    //startZap(host: "100.64.21.108", port: 8088, timeout:10000, zapHome: "/usr/share/owasp-zap", allowedHosts:['100.64.21.136'])
+                    startZap(host: "localhost", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap", allowedHosts:['100.64.21.136'])
                     //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
+
                 }
-                sh "ps auxwww|grep -i zap"
+                //sh "ps auxwww|grep -i zap"
                 //echo '123'
             }
         }
@@ -81,7 +83,11 @@ pipeline {
         
         stage('OWASP Scan') {
         	steps {
-        		 sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
+        		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
+        		 script {
+                    runZapCrawler(host:"http://100.64.21.141:31235/")
+                    runZapAttack()
+                 }        		 
         	}
 		    post {
 		        always {

@@ -45,7 +45,15 @@ pipeline {
                 '''                                
             }  
         }
-                                
+        
+        stage('Setup Env') {
+            steps {
+                script {
+                    startZap(host: "100.64.21.108", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.*'])
+                }
+            }
+        }
+                                        
         stage('Build & Test') {
         	steps {
         		sh 'mvn clean package -P${env}'
@@ -66,6 +74,19 @@ pipeline {
 			    }           
           }        
         }
+        
+        stage('OWASP Scan') {
+        	steps {
+        		 sh 'mvn verify -Dhttp.proxyHost=100.64.21.108 -Dhttp.proxyPort=8088 -Dhttps.proxyHost=100.64.21.108 -Dhttps.proxyPort=8088'
+        	}
+		    post {
+		        always {
+		            script {
+		                archiveZap(failAllAlerts: 1, failHighAlerts: 0, failMediumAlerts: 0, failLowAlerts: 0, falsePositivesFilePath: "zapFalsePositives.json")
+		            }
+		        }
+		    }       	
+        }         
         
         stage('Build & Publish Images') {
         

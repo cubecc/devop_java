@@ -48,7 +48,7 @@ pipeline {
                                                 
         stage('Build & Test') {
         	steps {
-        		sh 'mvn clean package -P${env}'
+        		sh 'mvn clean package -P${env} -DskipTests'
         	}
             post {
 	            success {

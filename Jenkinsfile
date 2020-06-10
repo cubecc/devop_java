@@ -21,7 +21,7 @@ pipeline {
     }
 
     stages {
-    	
+    	/*
         stage('User Input') {
             steps {
             	echo 'wait user input...'            	
@@ -55,7 +55,7 @@ pipeline {
             post {
 	            success {
 	            	//echo 'generate test report'
-	                junit 'target/surefire-reports/**/*.xml' 
+	                junit 'target/surefire-reports//*.xml' 
 	            }
         	}        	
         }       
@@ -71,40 +71,48 @@ pipeline {
           }
         }
 
-	      stage("Quality Gate") {
+	    stage("Quality Gate") {
 	        steps {
 	          timeout(time: 1, unit: 'HOURS') {
 	            waitForQualityGate abortPipeline: true
 	          }
 	        }
-	      }            
-            /*   
-	      stage('Quality Gate'){
-	      	steps {
-		          timeout(time: 1, unit: 'HOURS') {
-		              def qg = waitForQualityGate()
-		              //if (qg.status != 'OK') {
-		              //    error "Pipeline aborted due to quality gate failure: ${qg.status}"
-		              //}
-		              echo "Quality gate status: ${qg.status}"
-		          }
-	          }
-	      }
-              */
-        stage('Build & Publish Images') {
+	    }      
+	            
+        stage('Build Docker Images') {
         
-          steps {          	
-	          	script {
-		           	docker.withRegistry( registryUrl, registryCredential ) {
+		  steps {          	
+				script {
+				   	docker.withRegistry( registryUrl, registryCredential ) {
 				        sh '''				          		                  
-		                    	docker build -t ${IMAGE}:${VERSION} .
+				            	docker build -t ${IMAGE}:${VERSION} .
+				        '''
+					}
+				}
+			}         
+        }
+              
+		stage('Docker security analysis'){
+			steps {
+				echo 'Performing Docker image analysis'
+				//sh "CLAIR_ADDR=localhost:6060 CLAIR_OUTPUT=High CLAIR_THRESHOLD=100 /home/yyy/ ${IMAGE}:${VERSION}"
+			}
+		}
+		
+		              
+        stage('Push Docker Images') {
+        
+		  steps {          	
+				script {
+				   	docker.withRegistry( registryUrl, registryCredential ) {
+				        sh '''				          		                  
 						        docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest
 						        docker push ${IMAGE}:${VERSION}
 						        docker push ${IMAGE}:latest
 				        '''
-			        }
-			     }
-          }         
+					}
+				}
+			}         
         }
 
         stage('Deploy to K8') {
@@ -114,8 +122,8 @@ pipeline {
             		kubectl rollout status deployment ${appname} --watch --timeout=5m
             	'''                
             }            
-        }             
-                 
+        }
+                         
 		//stage('Build and Publish Image') {
 		//}  
 		
@@ -148,6 +156,19 @@ pipeline {
 		        }
 		    }       	
         } 
+        */
+
+		stage('OWASP Scan') {
+			steps {
+				runLog = sh (
+				    script: "docker run -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html",
+				    returnStatus: true
+				) == 0
+				echo "ZAP Run Log: ${runLog}"				
+			}
+		}
+	
+
         
         stage('Post test') {
             steps{

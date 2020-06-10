@@ -126,7 +126,7 @@ pipeline {
 		//} 
 		
         stage('OWASP Scan') {
-        	agent { label 'zap' }
+        	agent { label 'zap' options { skipDefaultCheckout() } }
         	steps {
         		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
         		 script {
@@ -134,8 +134,9 @@ pipeline {
                     //startZap(host: "127.0.0.1", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
                     //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
         		 	//sh "mvn verify -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dhttp.proxyHost=100.64.21.108 -Dhttp.proxyPort=8088 -Dhttps.proxyHost=100.64.21.108 -Dhttps.proxyPort=8088 -DskipTests"        		 
-                    runZapCrawler(host:"http://100.64.21.141:31235")                    
-                    runZapAttack()
+                    runZapCrawler(host:"http://100.64.21.141:31235")
+                    runZapCrawler(host:"http://100.64.21.141:31235/getWebUserList")
+                    //runZapAttack()
                  }        		 
         	}
 		    post {

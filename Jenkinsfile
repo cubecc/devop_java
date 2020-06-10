@@ -126,7 +126,8 @@ pipeline {
 		//} 
 		
         stage('OWASP Scan') {
-        	agent { label 'zap' options { skipDefaultCheckout() } }
+        	agent { label 'zap' }
+        	options { skipDefaultCheckout() }
         	steps {
         		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
         		 script {

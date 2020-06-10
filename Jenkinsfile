@@ -168,8 +168,6 @@ pipeline {
 			}
 		}
 	
-
-        
         stage('Post test') {
             steps{
                 echo 'ping curl...'

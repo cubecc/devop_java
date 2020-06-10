@@ -11,7 +11,8 @@ pipeline {
         env= "dev"
         //IMAGE = readMavenPom().getArtifactId()
     	//VERSION = readMavenPom().getVersion()
-    	IMAGE = "registry.lab.local:5000/webdemo-dev"
+    	appname = "webdemo-dev"
+    	IMAGE = "registry.lab.local:5000/${appname}"
     	VERSION = "${BUILD_NUMBER}"
     }
 
@@ -108,7 +109,10 @@ pipeline {
 
         stage('Deploy to K8') {
             steps{
-                sh("kubectl replace -f webdemo.yaml --force")
+            	sh '''
+            		kubectl replace -f webdemo.yaml --force
+            		kubectl rollout status deployment ${appname} --watch --timeout=5m
+            	'''                
             }            
         }             
                  

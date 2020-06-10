@@ -113,7 +113,7 @@ pipeline {
                     //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
         		 	//sh "mvn verify -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dhttp.proxyHost=100.64.21.108 -Dhttp.proxyPort=8088 -Dhttps.proxyHost=100.64.21.108 -Dhttps.proxyPort=8088 -DskipTests"        		 
                     runZapCrawler(host:"http://100.64.21.141:31235")                    
-                    //runZapAttack()
+                    runZapAttack()
                  }        		 
         	}
 		    post {

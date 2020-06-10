@@ -161,10 +161,11 @@ pipeline {
 		stage('OWASP Scan') {
 			steps {
 				script {					
-					//runLog = sh (script: "docker run --user \$(id -u):\$(id -g) -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html", returnStatus: true)
-					runLog = sh (script: "docker run --user \$(id -u):\$(id -g) -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://www.yahoo.com.hk -r zap_report.html", returnStatus: true)
-					//echo "ZAP Run Log: ${runLog}"
+					runLog = sh (script: "docker run --user \$(id -u):\$(id -g) -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html -m 5", returnStatus: true)									
 					publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: './', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP Scan', reportTitles: 'OWASP ZAP Scan'])
+					
+					//0 if there are no issues, 1 if there are any failures or 2 if there are just warning
+					echo "ZAP Run Log: ${runLog}"
 				}
 			}
 		}

@@ -161,7 +161,7 @@ pipeline {
 		stage('OWASP Scan') {
 			steps {
 				script {
-					runLog = sh (script: "docker run --user ${id -u}:${id -g} -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html", returnStatus: true)
+					runLog = sh (script: "docker run --user $(id -u):$(id -g) -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html", returnStatus: true)
 					echo "ZAP Run Log: ${runLog}"
 				}				
 			}

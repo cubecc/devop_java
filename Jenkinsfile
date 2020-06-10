@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        registry = "registry.lab.local:5000/webdemo-dev"
+        //registry = "registry.lab.local:5000/webdemo-dev"
         //registryUrl = 'https://100.64.21.108:5000'
         registryUrl = 'https://registry.lab.local:5000'
         //registryCredential = 'docker-registry-100.64.21.108'
@@ -48,12 +48,13 @@ pipeline {
                                                 
         stage('Build & Test') {
         	steps {
-        		sh 'mvn clean package -P${env} -DskipTests'
+        		//sh 'mvn clean package -P${env} -DskipTests'
+        		sh 'mvn clean package -P${env}'
         	}
             post {
 	            success {
-	            	echo 'generate test report'
-	                //junit 'target/surefire-reports/**/*.xml' 
+	            	//echo 'generate test report'
+	                junit 'target/surefire-reports/**/*.xml' 
 	            }
         	}        	
         }       
@@ -62,47 +63,15 @@ pipeline {
           steps {
           	echo  'call sonar'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
-            /*
+            
 			    withSonarQubeEnv('SonarQube'){ 
 			      sh 'mvn sonar:sonar'
 			    }
-			*/           
+			           
           }        
         }
-        /*
-        stage('xxx Analysis') {
-        	agent { label 'zap' }
-          steps {          	
-          	script {
-            startZap(host: "100.64.21.108", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
-            }       
-          }        
-        }
-        */
-        stage('OWASP Scan') {
-        	//agent { label 'zap' }
-        	steps {
-        		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
-        		 script {
-        		    //startZap(host: "100.64.21.108", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
-                    //startZap(host: "127.0.0.1", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
-                    //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
-        		 	//sh "mvn verify -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dhttp.proxyHost=100.64.21.108 -Dhttp.proxyPort=8088 -Dhttps.proxyHost=100.64.21.108 -Dhttps.proxyPort=8088 -DskipTests"
-        		 	sh "mvn spring-boot:run"
-        		 	sh "curl http://localhost:18080"        		 
-                    //runZapCrawler(host:"http://localhost:18080")                    
-                    //runZapAttack()
-                 }        		 
-        	}
-		    post {
-		        always {
-		            script {
-		                archiveZap(failAllAlerts: 100, failHighAlerts: 5, failMediumAlerts: 0, failLowAlerts: 0, falsePositivesFilePath: "zapFalsePositives.json")
-		            }
-		        }
-		    }       	
-        }         
-        /*
+               
+        
         stage('Build & Publish Images') {
         
           steps {          	
@@ -111,7 +80,8 @@ pipeline {
 				        sh '''				          		                  
 		                    	docker build -t ${IMAGE}:${VERSION} .
 						        docker tag ${IMAGE}:${VERSION} ${IMAGE}:latest
-						        docker push ${IMAGE}:latest		                    		         		
+						        docker push ${IMAGE}:${VERSION}
+						        docker push ${IMAGE}:latest
 				        '''
 			        }
 			     }
@@ -122,14 +92,7 @@ pipeline {
             steps{
                 sh("kubectl replace -f webdemo.yaml --force")
             }            
-        } 
-        
-        stage('Post test') {
-            steps{
-                echo 'ping'
-            }            
-        }
-          */
+        }             
                  
 		//stage('Build and Publish Image') {
 		//}  
@@ -138,7 +101,35 @@ pipeline {
 		//	steps{
 		//		deleteDir()
 		//	}
-		//}      
+		//} 
+		
+        stage('OWASP Scan') {
+        	agent { label 'zap' }
+        	steps {
+        		 //sh 'mvn verify -Dhttp.proxyHost=localhost -Dhttp.proxyPort=8088 -Dhttps.proxyHost=localhost -Dhttps.proxyPort=8088'
+        		 script {
+        		    startZap(host: "100.64.21.108", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
+                    //startZap(host: "127.0.0.1", port: 8088, timeout:500, zapHome: "/usr/share/owasp-zap")
+                    //startZap(host: "localhost", port: 8088, timeout:1000, zapHome: "/usr/share/owasp-zap", sessionPath:"/tmp/session.session", allowedHosts:['100.64.21.136'])
+        		 	sh "mvn verify -Dmaven.wagon.http.ssl.insecure=true -Dmaven.wagon.http.ssl.allowall=true -Dhttp.proxyHost=100.64.21.108 -Dhttp.proxyPort=8088 -Dhttps.proxyHost=100.64.21.108 -Dhttps.proxyPort=8088 -DskipTests"        		 
+                    runZapCrawler(host:"http://100.64.21.141:31235")                    
+                    //runZapAttack()
+                 }        		 
+        	}
+		    post {
+		        always {
+		            script {
+		                archiveZap(failAllAlerts: 100, failHighAlerts: 5, failMediumAlerts: 0, failLowAlerts: 0, falsePositivesFilePath: "zapFalsePositives.json")
+		            }
+		        }
+		    }       	
+        } 
+        
+        stage('Post test') {
+            steps{
+                echo 'ping curl...'
+            }            
+        }            		     
   		
     }
 	  post {

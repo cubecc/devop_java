@@ -179,7 +179,7 @@ pipeline {
 	  post {
         always {
             echo 'post status : clearup workspace'
-            deleteDir() /* clean up our workspace */
+            //deleteDir() /* clean up our workspace */
         }
         success {
             echo 'post status : success'

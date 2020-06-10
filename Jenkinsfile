@@ -160,10 +160,7 @@ pipeline {
 
 		stage('OWASP Scan') {
 			steps {
-				runLog = sh (
-				    script: "docker run -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html",
-				    returnStatus: true
-				) == 0
+				runLog = sh (script: "docker run -v ${workspace}:/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t http://100.64.21.141:31235/ -r zap_report.html", returnStatus: true)
 				echo "ZAP Run Log: ${runLog}"				
 			}
 		}

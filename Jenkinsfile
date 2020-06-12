@@ -54,7 +54,7 @@ pipeline {
         	steps {
         		//sh 'mvn clean package -P${env} -DskipTests'
         		//sh 'mvn clean package -P${env}'
-        		sh 'mvn clean package'
+        		sh 'mvn clean package -DskipTests'
         	}
             post {
 	            success {
@@ -128,16 +128,7 @@ pipeline {
             	'''                
             }            
         }
-                         
-		//stage('Build and Publish Image') {
-		//}  
-		
-		//stage ('clean after working'){
-		//	steps{
-		//		deleteDir()
-		//	}
-		//} 
-		
+                                 		
 		/*
         stage('OWASP Scan') {
         	agent { label 'zap' }

@@ -27,6 +27,7 @@ pipeline {
     	
         stage('User Input') {
             steps {
+            sh 'yum install gettext'
             	echo 'wait user input...'            	
 //                timeout(1) {
 //                    script {                        
@@ -65,8 +66,16 @@ pipeline {
         }       
         
         
+        stage('Dependency Check') {
+          steps {
+          		dependencycheck additionalArguments: '- project [project_name]- scan ./ — out ./target/dependency-check-report.xml — format XML — noupdate', odcInstallation: 'Dependency Checker'
+          }
+        }        
+        
+        
         stage('SonarQube Analysis') {
           steps {
+          
           	echo  'call sonar'
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
             
@@ -79,7 +88,7 @@ pipeline {
 
 	    stage("Quality Gate") {
 	        steps {
-	          timeout(time: 1, unit: 'HOURS') {
+	          timeout(time: 10, unit: 'MINUTES') {
 	            waitForQualityGate abortPipeline: true
 	          }
 	        }

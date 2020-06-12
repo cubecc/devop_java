@@ -67,7 +67,7 @@ pipeline {
         
         stage('Dependency Check') {
           steps {
-          		dependencycheck additionalArguments: '- project [project_name]- scan ./ - out ./target/dependency-check-report.html - format html - noupdate', odcInstallation: 'Dependency Checker'
+          		dependencycheck additionalArguments: '--project [project_name] --scan ./ --out ./target/dependency-check-report.html --format HTML --noupdate', odcInstallation: 'Dependency Checker'
           		//dependencyCheckPublisher pattern: './target/dependency-check-report.xml'
           }
         }        

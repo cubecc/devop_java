@@ -8,12 +8,15 @@ pipeline {
         //registryCredential = 'docker-registry-100.64.21.108'
         registryCredential = 'docker-registry-login'
         //dockerImage = ''
-        env= "dev"
+        //env= "dev"
         //IMAGE = readMavenPom().getArtifactId()
     	//VERSION = readMavenPom().getVersion()
-    	appname = "webdemo-dev"
-    	IMAGE = "registry.lab.local:5000/${appname}"
-    	VERSION = "${BUILD_NUMBER}"
+    	appname = "webdemo"
+    	//IMAGE = "registry.lab.local:5000/${appname}"
+    	//VERSION = "${BUILD_NUMBER}"
+    	
+   		VERSION = "${env.BUILD_ID}-${env.GIT_COMMIT}"
+   		IMAGE = "registry.lab.local:5000/${appname}"    	
     }
 
     tools { 
@@ -21,7 +24,7 @@ pipeline {
     }
 
     stages {
-    	/*
+    	
         stage('User Input') {
             steps {
             	echo 'wait user input...'            	
@@ -50,12 +53,13 @@ pipeline {
         stage('Build & Test') {
         	steps {
         		//sh 'mvn clean package -P${env} -DskipTests'
-        		sh 'mvn clean package -P${env}'
+        		//sh 'mvn clean package -P${env}'
+        		sh 'mvn clean package'
         	}
             post {
 	            success {
 	            	//echo 'generate test report'
-	                junit 'target/surefire-reports//*.xml' 
+	                junit 'target/surefire-reports/**/*.xml' 
 	            }
         	}        	
         }       
@@ -118,7 +122,8 @@ pipeline {
         stage('Deploy to K8') {
             steps{
             	sh '''
-            		kubectl replace -f webdemo.yaml --force
+            		envsubst < webdemo.yaml > webdemo_out.yaml
+            		kubectl replace -f webdemo_out.yaml --force
             		kubectl rollout status deployment ${appname} --watch --timeout=5m
             	'''                
             }            
@@ -155,8 +160,7 @@ pipeline {
 		            }
 		        }
 		    }       	
-        } 
-        */
+        }
 
 		stage('OWASP Scan') {
 			steps {
@@ -170,7 +174,7 @@ pipeline {
 			}
 		}
 	
-        stage('Post test') {
+        stage('Smoke Test') {
             steps{
                 echo 'ping curl...'
             }            
@@ -180,7 +184,7 @@ pipeline {
 	  post {
         always {
             echo 'post status : clearup workspace'
-            //deleteDir() /* clean up our workspace */
+            deleteDir() /* clean up our workspace */
         }
         success {
             echo 'post status : success'

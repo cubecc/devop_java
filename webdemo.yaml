@@ -3,27 +3,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webdemo-dev
+  name: ${appname}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webdemo-dev 
+      app: ${appname}
   template:
     metadata:
       labels:
-        app: webdemo-dev
+        app: ${appname}
     spec:
       containers:
-      - name: webdemo 
-        image: registry.lab.local:5000/webdemo-dev:latest
+      - name: ${appname} 
+        image: ${IMAGE}:${VERSION}
         imagePullPolicy: Always
         env:
           - name: env
             value: "testing"        
         ports:
         - containerPort: 18080
-          name: webdemo-dev
+          name: ${appname}
           protocol: TCP
         resources:
           limits:
@@ -45,13 +45,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: webdemo-dev 
+  name: ${appname}
 spec:
   selector:
-    app: webdemo-dev 
+    app: ${appname}
   type: NodePort
   ports:
-  - name: webdemo-dev
+  - name: ${appname}
     port: 18080
     nodePort: 31235
 
@@ -60,12 +60,12 @@ spec:
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: webdemo-dev
+  name: ${appname}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: webdemo-dev
+    name: ${appname}
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50

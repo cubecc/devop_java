@@ -3,27 +3,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ${appname}
+  name: ${APP_NAME}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ${appname}
+      app: ${APP_NAME}
   template:
     metadata:
       labels:
-        app: ${appname}
+        app: ${APP_NAME}
     spec:
       containers:
-      - name: ${appname} 
-        image: ${IMAGE}:${VERSION}
+      - name: ${APP_NAME} 
+        DOCKER_IMAGE_NAME: ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}
         imagePullPolicy: Always
         env:
           - name: env
             value: "testing"        
         ports:
         - containerPort: 18080
-          name: ${appname}
+          name: ${APP_NAME}
           protocol: TCP
         resources:
           limits:
@@ -45,27 +45,27 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ${appname}
+  name: ${APP_NAME}
 spec:
   selector:
-    app: ${appname}
+    app: ${APP_NAME}
   type: NodePort
   ports:
-  - name: ${appname}
+  - name: ${APP_NAME}
     port: 18080
-    nodePort: 31235
+    nodePort: ${HOST_PORT}
 
 
 ---
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: ${appname}
+  name: ${APP_NAME}
 spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: ${appname}
+    name: ${APP_NAME}
   minReplicas: 1
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50

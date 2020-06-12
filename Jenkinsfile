@@ -138,6 +138,7 @@ pipeline {
 		//	}
 		//} 
 		
+		/*
         stage('OWASP Scan') {
         	agent { label 'zap' }
         	options { skipDefaultCheckout() }
@@ -161,6 +162,7 @@ pipeline {
 		        }
 		    }       	
         }
+*/
 
 		stage('OWASP Scan') {
 			steps {

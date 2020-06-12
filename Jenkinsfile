@@ -67,7 +67,7 @@ pipeline {
         
         stage('Dependency Check') {
           steps {
-          		dependencycheck additionalArguments: '- project [project_name]- scan ./ - out ./target/dependency-check-report.xml - format XML - noupdate', odcInstallation: 'Dependency Checker'
+          		dependencycheck additionalArguments: '- project [project_name]- scan ./ - out ./target/dependency-check-report.html - format html - noupdate', odcInstallation: 'Dependency Checker'
           		//dependencyCheckPublisher pattern: './target/dependency-check-report.xml'
           }
         }        
@@ -191,7 +191,7 @@ pipeline {
 	  post {
         always {
             echo 'post status : clearup workspace'
-            deleteDir() /* clean up our workspace */
+            //deleteDir() /* clean up our workspace */
         }
         success {
             echo 'post status : success'

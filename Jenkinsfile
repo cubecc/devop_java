@@ -17,7 +17,7 @@ pipeline {
         registryCredential = 'docker-registry-login'
         //dockerDOCKER_IMAGE_NAME = ''
         
-        ENV_NAME = getEnvFromBranch(${env.BRANCH_NAME})
+        ENV_NAME = getEnvFromBranch("${env.BRANCH_NAME}")
         
         APP_NAME = "webdemo-${ENV_NAME}"
         APP_VERSION = "MAK001";
@@ -105,7 +105,7 @@ pipeline {
           }
         }
 
-	    stage("Quality Gate") {
+	    stage('Quality Gate') {
 	        steps {
 	          timeout(time: 15, unit: 'MINUTES') {
 	            waitForQualityGate abortPipeline: true

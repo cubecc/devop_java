@@ -70,7 +70,8 @@ pipeline {
             //sh 'mvn sonar:sonar -Dsonar.login=$SONAR_PSW'
             
 			    withSonarQubeEnv('SonarQube'){ 
-			      sh 'mvn sonar:sonar -Dsonar.dependencyCheck.reportPath=target/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html'
+			      //sh 'mvn sonar:sonar -Dsonar.dependencyCheck.reportPath=target/dependency-check-report.xml -Dsonar.dependencyCheck.htmlReportPath=target/dependency-check-report.html'
+			      sh 'mvn sonar:sonar'
 			    }
           }
         }

@@ -64,6 +64,12 @@ pipeline {
         	}        	
         }       
         
+		stage('Dep Check') {
+		    steps{
+		        dependencyCheckAnalyzer datadir: '', hintsFile: '', includeCsvReports: false, includeHtmlReports: true, includeJsonReports: false, includeVulnReports: true, isAutoupdateDisabled: false, outdir: '', scanpath: '', skipOnScmChange: false, skipOnUpstreamChange: false, suppressionFile: '', zipExtensions: ''
+		    }
+		}
+        
         stage('SonarQube Analysis') {
           steps {
           	echo  'call sonar'

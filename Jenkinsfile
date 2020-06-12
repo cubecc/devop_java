@@ -26,8 +26,7 @@ pipeline {
     stages {
     	
         stage('User Input') {
-            steps {
-            sh 'yum install gettext'
+            steps {            
             	echo 'wait user input...'            	
 //                timeout(1) {
 //                    script {                        
@@ -68,7 +67,8 @@ pipeline {
         
         stage('Dependency Check') {
           steps {
-          		dependencycheck additionalArguments: '- project [project_name]- scan ./ — out ./target/dependency-check-report.xml — format XML — noupdate', odcInstallation: 'Dependency Checker'
+          		dependencycheck additionalArguments: '- project [project_name]- scan ./ - out ./target/dependency-check-report.xml - format XML - noupdate', odcInstallation: 'Dependency Checker'
+          		//dependencyCheckPublisher pattern: './target/dependency-check-report.xml'
           }
         }        
         
@@ -132,9 +132,11 @@ pipeline {
 
         stage('Deploy to K8') {
             steps{
+            //envsubst < webdemo.yaml > webdemo_out.yaml
             	sh '''
-            		envsubst < webdemo.yaml > webdemo_out.yaml
-            		kubectl replace -f webdemo_out.yaml --force
+            		
+            		sed -i -e "s/\${appname}/${appname}/g;s/\${IMAGE}/${IMAGE}/g;s/\${VERSION}/${VERSION}/g;" webdemo.yaml
+            		kubectl replace -f webdemo.yaml --force            		
             		kubectl rollout status deployment ${appname} --watch --timeout=5m
             	'''                
             }            

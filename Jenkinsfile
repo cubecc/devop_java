@@ -106,14 +106,15 @@ pipeline {
 				}
 			}         
         }
-              
+          
+          /*    
 		stage('Docker security analysis'){
 			steps {
 				echo 'Performing Docker image analysis'
 				//sh "CLAIR_ADDR=localhost:6060 CLAIR_OUTPUT=High CLAIR_THRESHOLD=100 /home/yyy/ ${IMAGE}:${VERSION}"
 			}
 		}
-		
+		*/
 		              
         stage('Push Docker Images') {
         
@@ -135,7 +136,7 @@ pipeline {
             //envsubst < webdemo.yaml > webdemo_out.yaml
             	sh '''
             		
-            		sed -i -e "s/\${appname}/${appname}/g;s/\${IMAGE}/${IMAGE}/g;s/\${VERSION}/${VERSION}/g;" webdemo.yaml
+            		sed -i -e "s/\\${appname}/${appname}/g;s/\\${IMAGE}/${IMAGE}/g;s/\\${VERSION}/${VERSION}/g" webdemo.yaml
             		kubectl replace -f webdemo.yaml --force            		
             		kubectl rollout status deployment ${appname} --watch --timeout=5m
             	'''                

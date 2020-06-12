@@ -136,7 +136,7 @@ pipeline {
             //envsubst < webdemo.yaml > webdemo_out.yaml
             	sh '''
             		
-            		sed -i -e "s/\\${appname}/${appname}/g;s/\\${IMAGE}/${IMAGE}/g;s/\\${VERSION}/${VERSION}/g" webdemo.yaml
+            		sed -i -e "s~\\${appname}~${appname}~g;s~\\${IMAGE}~${IMAGE}~g;s~\\${VERSION}~${VERSION}~g" webdemo.yaml
             		kubectl replace -f webdemo.yaml --force            		
             		kubectl rollout status deployment ${appname} --watch --timeout=5m
             	'''                

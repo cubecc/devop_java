@@ -12,4 +12,57 @@ secret:
 jasypt:
     encryptor:
       privateKeyFormat: PEM
-      privateKeyLocation: file:config/private.key   
+      privateKeyString: |-
+          -----BEGIN PRIVATE KEY-----
+          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
+          MSvTcHdAsQTZCM6TqTAOhuG24AwC
+          -----END PRIVATE KEY-----
+      #privateKeyLocation: file:/var/app_certs/private.key   

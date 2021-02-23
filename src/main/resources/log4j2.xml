@@ -1,0 +1,39 @@
+<Configuration monitorInterval="30">
+	<Properties>
+		<Property name="APP_NAME">MyApp</Property>
+		<!--路徑依日期分類 -->
+		<!-- <Property name="LOG_FILE_PATH">/LogFile/${APP_NAME}/logs/$${date:yyyy-MM-dd}</Property> -->
+		<!--設置 Log 輸出格式 -->
+		<Property name="PATTERN_FORMAT">
+			%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+		</Property>
+	</Properties>
+
+	<Appenders>
+		<!--輸出到 Console -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${PATTERN_FORMAT}" />
+		</Console>
+		<!--輸出 log 到檔案 -->
+<!-- 		<RollingFile name="RollingInfoFile"
+			fileName="${LOG_FILE_PATH}/info.log"
+			filePattern="${LOG_FILE_PATH}/$${date:yyyyMM}/info-%d{yyyyMMdd}-%i.log.gz">
+			<PatternLayout>
+				<pattern>${PATTERN_FORMAT}</pattern>
+			</PatternLayout>
+			<Policies>
+				<OnStartupTriggeringPolicy />
+				<TimeBasedTriggeringPolicy />
+			</Policies>
+		</RollingFile> -->
+	</Appenders>
+	<Loggers>
+		<!--過濾掉 spring 和 mybatis 的一些無用的 log -->
+		<Logger name="org.springframework" level="INFO" />
+		<!-- <Logger name="org.mybatis" level="INFO" /> -->
+		<Root level="DEBUG">
+			<AppenderRef ref="Console" />
+			<!-- <AppenderRef ref="RollingInfoFile" /> -->
+		</Root>
+	</Loggers>
+</Configuration>

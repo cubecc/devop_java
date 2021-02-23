@@ -1,0 +1,13 @@
+docker run \
+      --attach STDOUT \
+      -v ~/.aws/:/root/.aws/:ro \
+      --net=host \
+      -e AWS_REGION=ap-east-1 \
+      --name xray-daemon \
+      -p 2000:2000/udp \
+      xray-daemon -o
+      
+         
+      
+docker stop xray-daemon
+docker rm xray-daemon      

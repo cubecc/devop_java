@@ -1,4 +1,4 @@
-package com.cube.webDemo;
+package com.cube.springShowcase;
 
 import org.jasypt.encryption.StringEncryptor;
 

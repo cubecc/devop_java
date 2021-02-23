@@ -18,7 +18,7 @@ public class HelloController {
 	public String index() {
 		logger.info("Request incoming");
         for (String profileName : env.getActiveProfiles()) {
-            System.out.println("Currently active profile - " + profileName);
+            System.out.println("Current active profile - " + profileName);
         } 
 		return "Hello Hello, current profile : " + env + ", config name : " +  env.getProperty("env.name") + ", secret : "  + env.getProperty("secret.password");		
 	}
